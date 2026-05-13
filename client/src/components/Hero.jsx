@@ -5,8 +5,8 @@ const Hero = () => {
   return (
     <section style={{
       position: 'relative',
-      minHeight: '80vh',
-      background: 'linear-gradient(rgba(10, 37, 64, 0.9), rgba(10, 37, 64, 0.9)), url("https://images.unsplash.com/photo-1454165833767-027ffea1023d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
+      minHeight: 'clamp(600px, 100vh, 1000px)',
+      background: 'linear-gradient(rgba(10, 37, 64, 0.8), rgba(10, 37, 64, 0.9)), url("https://images.unsplash.com/photo-1454165833767-027ffea1023d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       display: 'flex',
@@ -14,33 +14,34 @@ const Hero = () => {
       color: '#fff',
       overflow: 'hidden',
     }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', width: '100%', position: 'relative', zIndex: 10 }}>
-        <div style={{ maxWidth: '800px' }}>
+      <div className="container" style={{ position: 'relative', zIndex: 10, width: '100%' }}>
+        <div className="hero-content" style={{ maxWidth: '850px' }}>
           <div style={{
             display: 'inline-block',
             background: 'rgba(255, 255, 255, 0.1)',
             padding: '8px 16px',
             borderRadius: '4px',
-            fontSize: '14px',
+            fontSize: 'clamp(12px, 2vw, 14px)',
             fontWeight: 600,
             letterSpacing: '1px',
             textTransform: 'uppercase',
             marginBottom: '24px',
-            borderLeft: '4px solid #0056b3'
+            borderLeft: '4px solid var(--secondary)',
+            backdropFilter: 'blur(4px)'
           }}>
             Established since 5 November 1996
           </div>
           <h1 style={{
-            fontSize: 'clamp(36px, 5vw, 64px)',
+            fontSize: 'clamp(32px, 8vw, 64px)',
             fontWeight: 800,
             lineHeight: 1.1,
             marginBottom: '20px',
             letterSpacing: '-1px'
           }}>
-            Strategic Financial Solutions with <span style={{ color: '#00a8ff' }}>Integrity & Excellence</span>
+            Strategic Financial Solutions with <span style={{ color: 'var(--accent)' }}>Integrity & Excellence</span>
           </h1>
           <p style={{
-            fontSize: '18px',
+            fontSize: 'clamp(16px, 2.5vw, 19px)',
             lineHeight: 1.6,
             color: 'rgba(255, 255, 255, 0.8)',
             marginBottom: '40px',
@@ -48,71 +49,102 @@ const Hero = () => {
           }}>
             M/s Jaiswal Brajesh & Co. is a multi-disciplinary professional firm of Chartered Accountants, delivering assurance, taxation, and advisory services with absolute independence and technical excellence.
           </p>
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+          <div className="hero-actions" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <Link to="/services" style={{
-              padding: '16px 32px',
-              background: '#0056b3',
+              padding: 'clamp(12px, 2vw, 16px) clamp(24px, 3vw, 32px)',
+              background: 'var(--secondary)',
               color: '#fff',
               textDecoration: 'none',
               fontWeight: 700,
               borderRadius: '4px',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={e => e.target.style.background = '#004494'}
-            onMouseLeave={e => e.target.style.background = '#0056b3'}
-            >
+              transition: 'all 0.3s',
+              textAlign: 'center',
+              flex: '0 1 auto'
+            }}>
               Explore Our Services
             </Link>
             <Link to="/contact" style={{
-              padding: '16px 32px',
+              padding: 'clamp(12px, 2vw, 16px) clamp(24px, 3vw, 32px)',
               border: '2px solid #fff',
               color: '#fff',
               textDecoration: 'none',
               fontWeight: 700,
               borderRadius: '4px',
-              transition: 'all 0.3s'
-            }}
-            onMouseEnter={e => { e.target.style.background = '#fff'; e.target.style.color = '#0a2540'; }}
-            onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = '#fff'; }}
-            >
+              transition: 'all 0.3s',
+              textAlign: 'center',
+              flex: '0 1 auto'
+            }}>
               Contact Us
             </Link>
           </div>
         </div>
-      </div>
 
-      {/* Stats Overlay */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        right: 0,
-        background: 'rgba(0, 168, 255, 0.1)',
-        backdropFilter: 'blur(10px)',
-        padding: '40px',
-        borderTopLeftRadius: '40px',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '40px',
-        borderLeft: '1px solid rgba(255,255,255,0.1)',
-        borderTop: '1px solid rgba(255,255,255,0.1)'
-      }} className="hidden-mobile">
-        <div>
-          <div style={{ fontSize: '32px', fontWeight: 800 }}>28+</div>
-          <div style={{ fontSize: '12px', textTransform: 'uppercase', opacity: 0.7 }}>Years Experience</div>
-        </div>
-        <div>
-          <div style={{ fontSize: '32px', fontWeight: 800 }}>6+</div>
-          <div style={{ fontSize: '12px', textTransform: 'uppercase', opacity: 0.7 }}>Physical Branches</div>
-        </div>
-        <div>
-          <div style={{ fontSize: '32px', fontWeight: 800 }}>PAN</div>
-          <div style={{ fontSize: '12px', textTransform: 'uppercase', opacity: 0.7 }}>India Presence</div>
+        {/* Stats Section */}
+        <div className="hero-stats" style={{
+          marginTop: 'clamp(40px, 8vw, 80px)',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: 'clamp(16px, 3vw, 30px)',
+          maxWidth: '700px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          padding: 'clamp(20px, 4vw, 30px)',
+          borderRadius: '12px',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          animation: 'fadeInUp 0.8s ease-out forwards'
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(24px, 5vw, 32px)', fontWeight: 800, color: 'var(--accent)' }}>28+</div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', opacity: 0.7, fontWeight: 700, letterSpacing: '1px' }}>Years Experience</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(24px, 5vw, 32px)', fontWeight: 800, color: 'var(--accent)' }}>8+</div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', opacity: 0.7, fontWeight: 700, letterSpacing: '1px' }}>Physical Branches</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 'clamp(24px, 5vw, 32px)', fontWeight: 800, color: 'var(--accent)' }}>PAN</div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', opacity: 0.7, fontWeight: 700, letterSpacing: '1px' }}>India Presence</div>
+          </div>
         </div>
       </div>
 
       <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
+          .hero-content {
+            text-align: center;
+            margin: 0 auto;
+          }
+          .hero-content p {
+            margin: 0 auto 32px;
+          }
+          .hero-actions {
+            justify-content: center;
+          }
+          .hero-stats {
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+
+        @media (min-width: 993px) {
+          .hero-stats {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin-top: 0;
+            border-top-left-radius: 40px;
+            border-bottom-right-radius: 0;
+            border-right: none;
+            border-bottom: none;
+            padding: 40px 60px;
+            width: auto;
+            min-width: 550px;
+          }
         }
       `}</style>
     </section>
@@ -120,3 +152,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+

@@ -23,9 +23,9 @@ const FirmOverview = () => {
   return (
     <div style={{ background: '#fff', minHeight: '100vh' }}>
       {/* Header */}
-      <section style={{ padding: '80px 24px', background: '#0a2540', color: '#fff', textAlign: 'center' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <h1 style={{ fontSize: '42px', fontWeight: 800, marginBottom: '20px' }}>Firm Overview</h1>
+      <section className="section-padding" style={{ background: 'var(--primary)', color: '#fff', textAlign: 'center' }}>
+        <div className="container" style={{ maxWidth: 1000 }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 42px)', fontWeight: 800, marginBottom: '20px' }}>Firm Overview</h1>
           <p style={{ fontSize: '18px', opacity: 0.8, lineHeight: 1.6 }}>
             Technical Details & Regulatory Registrations of M/s Jaiswal Brajesh & Co.
           </p>
@@ -33,91 +33,92 @@ const FirmOverview = () => {
       </section>
 
       {/* Overview Table */}
-      <section style={{ padding: '80px 24px', background: '#fff' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ 
-            background: '#f8f9fa', 
-            padding: '40px', 
+      <section className="section-padding">
+        <div className="container" style={{ maxWidth: 900 }}>
+          <div className="card-hover" style={{ 
+            background: 'var(--bg-light)', 
+            padding: 'clamp(20px, 4vw, 40px)', 
             borderRadius: '16px', 
             border: '1px solid #eee',
             boxShadow: '0 10px 30px rgba(0,0,0,0.02)'
           }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#0a2540', marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <FiInfo style={{ color: '#0056b3' }} /> Basic Information
+            <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--primary)', marginBottom: '32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <FiInfo style={{ color: 'var(--secondary)' }} /> Basic Information
             </h2>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ paddingBottom: '16px', borderBottom: '1px solid #eee' }}>
-                <div style={{ fontSize: '14px', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Name of the Firm</div>
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#0056b3', textDecoration: 'underline' }}>M/s Jaiswal Brajesh & Co., Chartered Accountants</div>
+                <div style={{ fontSize: '12px', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Name of the Firm</div>
+                <div style={{ fontSize: 'clamp(18px, 3vw, 20px)', fontWeight: 700, color: 'var(--secondary)', textDecoration: 'underline', textUnderlineOffset: '4px' }}>M/s Jaiswal Brajesh & Co., Chartered Accountants</div>
               </div>
               
               {firmData.map((item, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', paddingBottom: '16px', borderBottom: '1px solid #eee' }}>
+                <div key={i} style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+                  gap: '12px', 
+                  paddingBottom: '16px', 
+                  borderBottom: '1px solid #eee' 
+                }}>
                   <div style={{ fontSize: '15px', color: '#555', fontWeight: 600 }}>{item.label}:</div>
-                  <div style={{ fontSize: '15px', color: '#0a2540', fontWeight: 500, fontStyle: 'italic' }}>{item.value}</div>
+                  <div style={{ fontSize: '15px', color: 'var(--primary)', fontWeight: 500, fontStyle: 'italic' }}>{item.value}</div>
                 </div>
               ))}
             </div>
 
             {/* GST Section */}
             <div style={{ marginTop: '48px' }}>
-              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0a2540', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <FiFileText style={{ color: '#0056b3' }} /> GST Registration Numbers
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--primary)', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <FiFileText style={{ color: 'var(--secondary)' }} /> GST Registration Numbers
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
                 {gstNumbers.map((gst, i) => (
-                  <div key={i} style={{ background: '#fff', padding: '16px', borderRadius: '8px', border: '1px solid #eef' }}>
+                  <div key={i} style={{ background: '#fff', padding: '16px', borderRadius: '8px', border: '1px solid #eef', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
                     <div style={{ fontSize: '13px', color: '#888', fontWeight: 600 }}>{gst.state}</div>
-                    <div style={{ fontSize: '15px', fontWeight: 700, color: '#0056b3' }}>{gst.no}</div>
+                    <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--secondary)' }}>{gst.no}</div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Partner Count */}
-            <div style={{ marginTop: '48px', padding: '24px', background: '#0a2540', borderRadius: '12px', color: '#fff', textAlign: 'center' }}>
-              <FiUsers size={32} style={{ color: '#00a8ff', marginBottom: '12px' }} />
+            <div style={{ marginTop: '48px', padding: '30px', background: 'var(--primary)', borderRadius: '12px', color: '#fff', textAlign: 'center' }}>
+              <FiUsers size={32} style={{ color: 'var(--accent)', marginBottom: '12px' }} />
               <div style={{ fontSize: '18px', fontWeight: 700 }}>Number of Partners</div>
-              <div style={{ fontSize: '24px', fontWeight: 800, color: '#00a8ff' }}>12 Partners (FCA / ACA)</div>
+              <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--accent)' }}>12 Partners (FCA / ACA)</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Location Summary */}
-      <section style={{ padding: '0 24px 80px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }} className="responsive-grid">
-            <div style={{ background: '#f0f7ff', padding: '32px', borderRadius: '12px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0a2540', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <FiMapPin style={{ color: '#0056b3' }} /> Head Office
+      <section style={{ paddingBottom: '80px' }}>
+        <div className="container" style={{ maxWidth: 900 }}>
+          <div className="responsive-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+            <div className="card-hover" style={{ background: 'var(--bg-light)', padding: '32px', borderRadius: '12px', border: '1px solid #eee' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--primary)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <FiMapPin style={{ color: 'var(--secondary)' }} /> Head Office
               </h3>
-              <p style={{ fontSize: '15px', color: '#444', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.6 }}>
                 Flat No. 402, 4th Floor, Nagina Complex, Behind AN College, Shivpuri, Patna – 800001 (Bihar)
               </p>
             </div>
-            <div style={{ background: '#fff', padding: '32px', borderRadius: '12px', border: '1px solid #eee' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0a2540', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="card-hover" style={{ background: '#fff', padding: '32px', borderRadius: '12px', border: '1px solid #eee' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--primary)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <FiCheckCircle style={{ color: '#28a745' }} /> Branch Presence
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                 {['New Delhi', 'Varanasi', 'Raipur', 'Prayagraj', 'Lucknow', 'Ranchi', 'Nalanda'].map((city, i) => (
-                  <span key={i} style={{ padding: '6px 12px', background: '#f8f9fa', borderRadius: '20px', fontSize: '13px', color: '#555' }}>{city}</span>
+                  <span key={i} style={{ padding: '6px 12px', background: 'var(--bg-light)', borderRadius: '20px', fontSize: '13px', color: 'var(--text-muted)', border: '1px solid #eee' }}>{city}</span>
                 ))}
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .responsive-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 };
 
 export default FirmOverview;
+

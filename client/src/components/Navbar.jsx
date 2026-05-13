@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FiMenu, FiX, FiChevronDown, FiMail, FiPhone } from 'react-icons/fi';
 import logo from '../assets/Logo.avif';
 
@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const navigate = useNavigate();
+  const [mobileExpanded, setMobileExpanded] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -19,6 +19,7 @@ const Navbar = () => {
   useEffect(() => {
     setIsOpen(false);
     setActiveDropdown(null);
+    setMobileExpanded(null);
   }, [location.pathname]);
 
   const navLinks = [
@@ -27,7 +28,6 @@ const Navbar = () => {
       name: 'About', 
       path: '/about',
       subLinks: [
-        // { name: 'About Us', path: '/about' },
         { name: 'Firm Overview', path: '/firm-overview' },
         { name: 'Our Leaders', path: '/our-leaders' },
         { name: 'Our Branches', path: '/our-branches' }
@@ -57,7 +57,7 @@ const Navbar = () => {
     <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
       {/* Top Bar */}
       <div style={{
-        background: '#0a2540',
+        background: 'var(--primary)',
         color: '#fff',
         padding: '8px 24px',
         fontSize: '13px',
@@ -87,23 +87,15 @@ const Navbar = () => {
           padding: '0 24px',
         }}
       >
-        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 80 }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 80, padding: 0 }}>
           
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
             <img 
               src={logo} 
               alt="Jaiswal Brajesh & Co. Logo" 
-              style={{ height: '60px', width: 'auto', display: 'block' }} 
+              style={{ height: 'clamp(40px, 8vw, 60px)', width: 'auto', display: 'block' }} 
             />
-            {/* <div className="hidden-mobile">
-              <div style={{ fontSize: 20, fontWeight: 700, color: '#0a2540', lineHeight: 1.1 }}>
-                Jaiswal Brajesh & Co.
-              </div>
-              <div style={{ fontSize: 11, color: '#666', letterSpacing: 1.5, textTransform: 'uppercase', marginTop: 2 }}>
-                Chartered Accountants
-              </div>
-            </div> */}
           </Link>
 
           {/* Desktop Nav */}
@@ -121,7 +113,7 @@ const Navbar = () => {
                     padding: '10px 16px',
                     fontSize: 15,
                     fontWeight: 600,
-                    color: isActive(link.path) ? '#0056b3' : '#333',
+                    color: isActive(link.path) ? 'var(--secondary)' : '#333',
                     textDecoration: 'none',
                     display: 'flex',
                     alignItems: 'center',
@@ -171,78 +163,149 @@ const Navbar = () => {
 
           {/* Mobile Toggle */}
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen(true)}
             className="show-mobile"
             style={{
               padding: '8px',
               borderRadius: '4px',
-              border: '1px solid #ddd',
-              background: 'none',
+              border: '1px solid #eee',
+              background: '#f8f9fa',
               cursor: 'pointer',
-              display: 'none'
+              color: 'var(--primary)'
             }}
           >
-            {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            <FiMenu size={24} />
           </button>
         </div>
+      </nav>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div style={{
-            background: '#fff',
-            borderTop: '1px solid #eee',
-            padding: '20px 0',
-            maxHeight: '80vh',
-            overflowY: 'auto'
-          }}>
-            {navLinks.map((link) => (
-              <div key={link.name}>
+      {/* Mobile Drawer Overlay */}
+      {isOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 1001
+          }}
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Mobile Drawer */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        right: isOpen ? 0 : '-100%',
+        width: '85%',
+        maxWidth: '350px',
+        height: '100vh',
+        background: '#fff',
+        zIndex: 1002,
+        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        boxShadow: '-10px 0 40px rgba(0,0,0,0.1)',
+        padding: '80px 0 40px',
+        display: 'flex',
+        flexDirection: 'column',
+        overflowY: 'auto'
+      }}>
+        {/* Close Button */}
+        <button 
+          onClick={() => setIsOpen(false)}
+          style={{
+            position: 'absolute',
+            top: '24px',
+            right: '24px',
+            background: '#f8f9fa',
+            border: 'none',
+            borderRadius: '50%',
+            padding: '8px',
+            cursor: 'pointer',
+            color: 'var(--primary)'
+          }}
+        >
+          <FiX size={24} />
+        </button>
+
+        {/* Mobile Nav Links */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {navLinks.map((link) => (
+            <div key={link.name} style={{ borderBottom: '1px solid #f0f0f0' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Link
                   to={link.path}
                   style={{
-                    display: 'block',
-                    padding: '12px 20px',
-                    fontSize: 16,
+                    flex: 1,
+                    padding: '16px 24px',
+                    fontSize: 17,
                     fontWeight: 600,
-                    color: isActive(link.path) ? '#0056b3' : '#333',
+                    color: isActive(link.path) ? 'var(--secondary)' : 'var(--primary)',
                     textDecoration: 'none'
                   }}
+                  onClick={() => !link.subLinks && setIsOpen(false)}
                 >
                   {link.name}
                 </Link>
                 {link.subLinks && (
-                  <div style={{ paddingLeft: 20 }}>
-                    {link.subLinks.map(sub => (
-                      <Link
-                        key={sub.name}
-                        to={sub.path}
-                        style={{
-                          display: 'block',
-                          padding: '8px 20px',
-                          fontSize: 14,
-                          color: '#666',
-                          textDecoration: 'none'
-                        }}
-                      >
-                        {sub.name}
-                      </Link>
-                    ))}
-                  </div>
+                  <button 
+                    onClick={() => setMobileExpanded(mobileExpanded === link.name ? null : link.name)}
+                    style={{ padding: '16px 24px', background: 'none', border: 'none', color: '#666' }}
+                  >
+                    <FiChevronDown 
+                      size={20} 
+                      style={{ 
+                        transform: mobileExpanded === link.name ? 'rotate(180deg)' : 'rotate(0)',
+                        transition: 'transform 0.3s'
+                      }} 
+                    />
+                  </button>
                 )}
               </div>
-            ))}
-          </div>
-        )}
-      </nav>
+              
+              {link.subLinks && mobileExpanded === link.name && (
+                <div style={{ background: '#f8f9fa', paddingBottom: '8px' }}>
+                  {link.subLinks.map(sub => (
+                    <Link
+                      key={sub.name}
+                      to={sub.path}
+                      style={{
+                        display: 'block',
+                        padding: '12px 40px',
+                        fontSize: 15,
+                        color: '#555',
+                        textDecoration: 'none'
+                      }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {sub.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 
-      <style>{`
-        @media (max-width: 992px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: block !important; }
-        }
-      `}</style>
+        {/* Mobile Contact Info */}
+        <div style={{ marginTop: 'auto', padding: '32px 24px', background: '#f8f9fa' }}>
+          <div style={{ fontSize: '12px', fontWeight: 700, color: '#aaa', textTransform: 'uppercase', marginBottom: '16px', letterSpacing: '1px' }}>Quick Contact</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <a href="mailto:admin.vns@jbcindia.in" style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#444', textDecoration: 'none' }}>
+              <FiMail style={{ color: 'var(--secondary)' }} /> admin.vns@jbcindia.in
+            </a>
+            <a href="tel:+919532063489" style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#444', textDecoration: 'none' }}>
+              <FiPhone style={{ color: 'var(--secondary)' }} /> +91-9532063489
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Navbar;
+

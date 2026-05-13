@@ -5,9 +5,14 @@ import logo from '../assets/Logo.avif';
 
 const Footer = () => {
   return (
-    <footer style={{ background: '#0a2540', color: '#fff', paddingTop: '80px' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1.5fr', gap: '48px', marginBottom: '60px' }} className="footer-grid">
+    <footer style={{ background: 'var(--primary)', color: '#fff', paddingTop: '80px' }}>
+      <div className="container">
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
+          gap: '48px', 
+          marginBottom: '60px' 
+        }}>
           
           {/* Firm Info */}
           <div>
@@ -56,21 +61,21 @@ const Footer = () => {
             <h4 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '24px' }}>Contact Details</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <FiMapPin size={20} style={{ color: '#00a8ff', flexShrink: 0 }} />
+                <FiMapPin size={20} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                 <div>
                   <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Admin Office (Varanasi)</div>
                   <div style={{ fontSize: '13px', opacity: 0.7 }}>13, Sidhhartha Complex, Sigra-mehmoorganj road, Varanasi (U.P.) - 221010</div>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <FiMapPin size={20} style={{ color: '#00a8ff', flexShrink: 0 }} />
+                <FiMapPin size={20} style={{ color: 'var(--accent)', flexShrink: 0 }} />
                 <div>
                   <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Head Office (Patna)</div>
                   <div style={{ fontSize: '13px', opacity: 0.7 }}>Flat no. 402, 4th Floor, Nagina Complex, Behind A.N. college, Shivpuri, Patna - 800023</div>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <FiMail size={16} style={{ color: '#00a8ff' }} />
+                <FiMail size={16} style={{ color: 'var(--accent)' }} />
                 <span style={{ fontSize: '13px', opacity: 0.7 }}>admin.vns@jbcindia.in</span>
               </div>
             </div>
@@ -89,17 +94,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 992px) {
-          .footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 576px) {
-          .footer-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </footer>
   );
 };
 
 export default Footer;
+

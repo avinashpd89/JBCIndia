@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+:root {
+  --primary: #0a2540;
+  --secondary: #0056b3;
+  --accent: #00a8ff;
+  --text-dark: #0a2540;
+  --text-muted: #666;
+  --bg-light: #f8f9fa;
+  --white: #ffffff;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -9,6 +19,8 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  color: var(--text-dark);
 }
 
 #root {
@@ -32,4 +44,71 @@ a {
 img {
   display: block;
   max-width: 100%;
+  height: auto;
 }
+
+/* Responsive Utilities */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+.section-padding {
+  padding: 100px 24px;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 60px 16px;
+  }
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
+}
+
+@media (max-width: 992px) {
+  .responsive-grid {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* Visibility Utilities */
+@media (max-width: 992px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 993px) {
+  .show-mobile {
+    display: none !important;
+  }
+}
+
+/* Shared Components Style */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+

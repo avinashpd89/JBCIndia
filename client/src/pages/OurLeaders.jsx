@@ -16,9 +16,9 @@ const OurLeaders = () => {
   return (
     <div style={{ background: '#fff' }}>
       {/* Page Header */}
-      <section style={{ padding: '80px 24px', background: '#0a2540', color: '#fff', textAlign: 'center' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <h1 style={{ fontSize: '48px', fontWeight: 800, marginBottom: '20px' }}>Our Leadership Team</h1>
+      <section className="section-padding" style={{ background: 'var(--primary)', color: '#fff', textAlign: 'center' }}>
+        <div className="container" style={{ maxWidth: 1000 }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, marginBottom: '20px' }}>Our Leadership Team</h1>
           <p style={{ fontSize: '18px', opacity: 0.8, lineHeight: 1.6 }}>
             Guided by experienced professionals committed to the highest standards of integrity and technical excellence.
           </p>
@@ -26,44 +26,40 @@ const OurLeaders = () => {
       </section>
 
       {/* Intro Section */}
-      <section style={{ padding: '80px 24px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0a2540', marginBottom: '24px' }}>Visionary Partners</h2>
-          <p style={{ fontSize: '16px', color: '#666', lineHeight: 1.8, marginBottom: '48px' }}>
+      <section className="section-padding">
+        <div className="container" style={{ maxWidth: 1000, textAlign: 'center' }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 32px)', fontWeight: 800, color: 'var(--primary)', marginBottom: '24px' }}>Visionary Partners</h2>
+          <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '48px' }}>
             Our leadership team comprises seasoned Chartered Accountants with diverse specializations. Together, they steer the firm towards its mission of delivering high-quality, timely, and ethical professional services across India.
           </p>
         </div>
       </section>
 
       {/* Partners Grid */}
-      <section style={{ padding: '0 24px 100px' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '40px' }}>
+      <section style={{ paddingBottom: '100px' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
             {partners.map((p, i) => (
-              <div key={i} style={{
+              <div key={i} className="card-hover" style={{
                 background: '#fff',
                 border: '1px solid #eee',
                 borderRadius: '16px',
-                padding: '40px',
-                transition: 'all 0.3s',
+                padding: 'clamp(24px, 4vw, 40px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center'
-              }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-10px)'; e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = '#0056b3'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = '#eee'; }}
-              >
-                <div style={{ width: '120px', height: '120px', background: '#f0f7ff', color: '#0056b3', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', fontSize: '40px' }}>
+              }}>
+                <div style={{ width: '100px', height: '100px', background: 'var(--bg-light)', color: 'var(--secondary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', fontSize: '36px' }}>
                   <FiUsers />
                 </div>
-                <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0a2540', marginBottom: '8px' }}>{p.name}</h3>
-                <div style={{ fontSize: '14px', color: '#0056b3', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>{p.role}</div>
+                <h3 style={{ fontSize: '22px', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>{p.name}</h3>
+                <div style={{ fontSize: '14px', color: 'var(--secondary)', fontWeight: 700, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '1px' }}>{p.role}</div>
                 <div style={{ fontSize: '13px', color: '#888', marginBottom: '20px' }}>{p.quals} | Since {p.year}</div>
-                <p style={{ fontSize: '15px', color: '#666', lineHeight: 1.6, flex: 1 }}>{p.experience}</p>
-                <div style={{ marginTop: '24px', display: 'flex', gap: '12px' }}>
-                  <div style={{ padding: '6px 12px', background: '#f8f9fa', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: '#555' }}>Statutory Audit</div>
-                  <div style={{ padding: '6px 12px', background: '#f8f9fa', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: '#555' }}>Taxation</div>
+                <p style={{ fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.6, flex: 1 }}>{p.experience}</p>
+                <div style={{ marginTop: '24px', display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <div style={{ padding: '6px 12px', background: 'var(--bg-light)', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: 'var(--primary)' }}>Statutory Audit</div>
+                  <div style={{ padding: '6px 12px', background: 'var(--bg-light)', borderRadius: '20px', fontSize: '12px', fontWeight: 600, color: 'var(--primary)' }}>Taxation</div>
                 </div>
               </div>
             ))}
@@ -72,24 +68,24 @@ const OurLeaders = () => {
       </section>
 
       {/* Expertise Section */}
-      <section style={{ padding: '100px 24px', background: '#f8f9fa' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0a2540', marginBottom: '48px' }}>Our Collective Strength</h2>
+      <section className="section-padding" style={{ background: 'var(--bg-light)' }}>
+        <div className="container" style={{ maxWidth: 1000, textAlign: 'center' }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 32px)', fontWeight: 800, color: 'var(--primary)', marginBottom: '48px' }}>Our Collective Strength</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '32px' }}>
-            <div>
-              <FiAward size={40} style={{ color: '#0056b3', marginBottom: '16px' }} />
-              <h4 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px' }}>15+</h4>
-              <p style={{ fontSize: '14px', color: '#666' }}>Professional Partners</p>
+            <div className="card-hover" style={{ padding: '30px', background: '#fff', borderRadius: '12px' }}>
+              <FiAward size={40} style={{ color: 'var(--secondary)', marginBottom: '16px' }} />
+              <h4 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px', color: 'var(--primary)' }}>15+</h4>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>Professional Partners</p>
             </div>
-            <div>
-              <FiCheckCircle size={40} style={{ color: '#0056b3', marginBottom: '16px' }} />
-              <h4 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px' }}>100+</h4>
-              <p style={{ fontSize: '14px', color: '#666' }}>Support Staff & Articles</p>
+            <div className="card-hover" style={{ padding: '30px', background: '#fff', borderRadius: '12px' }}>
+              <FiCheckCircle size={40} style={{ color: 'var(--secondary)', marginBottom: '16px' }} />
+              <h4 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px', color: 'var(--primary)' }}>100+</h4>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>Support Staff & Articles</p>
             </div>
-            <div>
-              <FiUsers size={40} style={{ color: '#0056b3', marginBottom: '16px' }} />
-              <h4 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px' }}>25+</h4>
-              <p style={{ fontSize: '14px', color: '#666' }}>Years of Excellence</p>
+            <div className="card-hover" style={{ padding: '30px', background: '#fff', borderRadius: '12px' }}>
+              <FiUsers size={40} style={{ color: 'var(--secondary)', marginBottom: '16px' }} />
+              <h4 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '8px', color: 'var(--primary)' }}>25+</h4>
+              <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>Years of Excellence</p>
             </div>
           </div>
         </div>
@@ -99,3 +95,4 @@ const OurLeaders = () => {
 };
 
 export default OurLeaders;
+
