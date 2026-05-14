@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FiArrowRight,
@@ -8,9 +8,11 @@ import {
   FiFileText,
   FiMapPin,
   FiUsers,
+  FiX,
 } from "react-icons/fi";
 import Hero from "../components/Hero";
 import InformationGallery from "../components/InformationGallery";
+import api from "../services/api";
 
 const services = [
   {
@@ -39,34 +41,37 @@ const services = [
   },
 ];
 
-const leaders = [
-  {
-    name: "CA Brajesh Kumar Jaiswal",
-    role: "Managing Partner",
-    year: "1996",
-    quals: "FCA, DISA (ICAI), FAFD",
-  },
-  {
-    name: "CA Ruby Bansal",
-    role: "Senior Partner",
-    year: "2002",
-    quals: "FCA, DISA (ICAI)",
-  },
-  {
-    name: "CA Prakash Tolani",
-    role: "Senior Partner",
-    year: "2002",
-    quals: "FCA, DISA (ICAI), DIRM(ICAI)",
-  },
-  {
-    name: "CA Uday Jayaswal",
-    role: "Senior Partner",
-    year: "2004",
-    quals: "FCA, DISA (ICAI)",
-  },
-];
+const LeaderImage = ({ src, alt, size }) => {
+  const [error, setError] = useState(false);
+  if (!src || src.trim() === '' || error) {
+    return <FiUsers size={size * 0.4} />;
+  }
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+      onError={() => setError(true)} 
+    />
+  );
+};
 
 const Home = () => {
+  const [leaders, setLeaders] = useState([]);
+  const [selectedLeader, setSelectedLeader] = useState(null);
+
+  useEffect(() => {
+    const fetchLeaders = async () => {
+      try {
+        const response = await api.get('/leaders');
+        setLeaders(response.data);
+      } catch (error) {
+        console.error('Error fetching leaders:', error);
+      }
+    };
+    fetchLeaders();
+  }, []);
+
   return (
     <div style={{ background: "#fff" }}>
       <Hero />
@@ -205,13 +210,18 @@ const Home = () => {
             <h2 style={{ fontSize: "clamp(28px, 4vw, 36px)", fontWeight: 800, color: "var(--primary)", marginBottom: "16px" }}>Our Leaders</h2>
             <p style={{ color: "var(--text-muted)" }}>Guided by experienced professionals with deep industry knowledge.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "32px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "32px" }}>
             {leaders.map((l, i) => (
               <div key={i} className="card-hover" style={{ textAlign: "center", padding: "40px 30px", background: "var(--bg-light)", borderRadius: "12px" }}>
-                <div style={{ width: "100px", height: "100px", background: "var(--primary)", borderRadius: "50%", margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
-                  <FiUsers size={40} />
+                <div style={{ width: "100px", height: "100px", background: "var(--primary)", borderRadius: "50%", margin: "0 auto 24px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", overflow: "hidden" }}>
+                  <LeaderImage src={l.image} alt={l.name} size={100} />
                 </div>
-                <h3 style={{ fontSize: "18px", fontWeight: 700, color: "var(--primary)", marginBottom: "4px" }}>{l.name}</h3>
+                <h3 
+                  onClick={() => setSelectedLeader(l)}
+                  style={{ fontSize: "18px", fontWeight: 700, color: "var(--primary)", marginBottom: "4px", cursor: "pointer" }}
+                >
+                  {l.name}
+                </h3>
                 <div style={{ fontSize: "13px", color: "var(--secondary)", fontWeight: 600, marginBottom: "12px" }}>{l.role} (Since {l.year})</div>
                 <div style={{ fontSize: "12px", color: "#888" }}>{l.quals}</div>
               </div>
@@ -219,6 +229,79 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {selectedLeader && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0,0,0,0.8)',
+          backdropFilter: 'blur(8px)',
+          zIndex: 2000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }} onClick={() => setSelectedLeader(null)}>
+          <div style={{
+            background: '#fff',
+            width: '100%',
+            maxWidth: '600px',
+            borderRadius: '20px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            position: 'relative',
+            padding: '40px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center'
+          }} onClick={e => e.stopPropagation()}>
+            <button onClick={() => setSelectedLeader(null)} style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              background: '#f4f7f6',
+              border: 'none',
+              borderRadius: '50%',
+              padding: '10px',
+              cursor: 'pointer',
+              zIndex: 10
+            }}><FiX size={24} /></button>
+            
+            <div style={{ width: '120px', height: '120px', background: 'var(--bg-light)', color: 'var(--secondary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', fontSize: '48px', overflow: 'hidden', flexShrink: 0 }}>
+              <LeaderImage src={selectedLeader.image} alt={selectedLeader.name} size={120} />
+            </div>
+            
+            <h2 style={{ fontSize: '28px', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>{selectedLeader.name}</h2>
+            <div style={{ color: 'var(--secondary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '2px', fontSize: '12px', marginBottom: '16px' }}>{selectedLeader.role}</div>
+            
+            <div style={{ borderTop: '1px solid #eee', paddingTop: '24px', width: '100%', textAlign: 'left' }}>
+              <h4 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '12px', color: 'var(--primary)' }}>About Leader</h4>
+              <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
+                {selectedLeader.about || selectedLeader.experience || "No details provided."}
+              </p>
+            </div>
+            
+            <button 
+              onClick={() => setSelectedLeader(null)}
+              style={{
+                marginTop: '32px',
+                padding: '12px 30px',
+                background: 'var(--primary)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                width: '100%'
+              }}
+            >Close</button>
+          </div>
+        </div>
+      )}
 
       <InformationGallery />
     </div>

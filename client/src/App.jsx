@@ -15,6 +15,8 @@ import FirmOverview from './pages/FirmOverview';
 import Dashboard from './pages/admin/Dashboard';
 import AddProduct from './pages/admin/AddProduct';
 import EditProduct from './pages/admin/EditProduct';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminSignUp from './pages/admin/AdminSignUp';
 import { useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import ScrollToTop from './components/ScrollToTop';
@@ -52,6 +54,9 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin">
+            <Route index element={<AdminLogin />} />
+            <Route path="login" element={<AdminLogin />} />
+            <Route path="signup" element={<AdminSignUp />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products/add" element={<AddProduct />} />
             <Route path="products/:id/edit" element={<EditProduct />} />

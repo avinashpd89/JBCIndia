@@ -1,38 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiBriefcase, FiSend, FiCheckCircle, FiBookOpen } from 'react-icons/fi';
-
-const openings = [
-  {
-    title: 'Chartered Accountant (Qualified)',
-    type: 'Full-Time',
-    experience: '0-3 Years',
-    location: 'Patna / Varanasi',
-    description: 'Looking for young and dynamic CAs with expertise in Statutory Audit and Income Tax compliance.'
-  },
-  {
-    title: 'Audit Manager',
-    type: 'Full-Time',
-    experience: '5+ Years',
-    location: 'New Delhi / Lucknow',
-    description: 'Senior role requiring deep knowledge of Ind AS, Company Law, and management audits.'
-  },
-  {
-    title: 'Article Assistants',
-    type: 'Internship',
-    experience: 'IPCC Qualified',
-    location: 'All Branches',
-    description: 'Opportunities for CA students to gain diverse experience in Auditing, Taxation, and ROC matters.'
-  },
-  {
-    title: 'Accountant',
-    type: 'Full-Time',
-    experience: '2-5 Years',
-    location: 'Raipur / Ranchi',
-    description: 'Expertise in Tally Prime, GST returns, and day-to-day bookkeeping is required.'
-  }
-];
+import api from '../services/api';
 
 const Career = () => {
+  const [openings, setOpenings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchOpenings();
+  }, []);
+
+  const fetchOpenings = async () => {
+    try {
+      const response = await api.get('/careers');
+      setOpenings(response.data);
+    } catch (error) {
+      console.error('Error fetching openings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ background: '#fff' }}>
       {/* Page Header */}
@@ -94,8 +82,8 @@ const Career = () => {
         <div className="container">
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 32px)', fontWeight: 800, color: 'var(--primary)', marginBottom: '48px', textAlign: 'center' }}>Current Openings</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
-            {openings.map((job, i) => (
-              <div key={i} className="card-hover" style={{
+            {openings.length > 0 ? openings.map((job, i) => (
+              <div key={job.id || i} className="card-hover" style={{
                 background: '#fff',
                 border: '1px solid #eee',
                 borderRadius: '12px',
@@ -117,7 +105,11 @@ const Career = () => {
                   Apply Now <FiSend size={14} />
                 </button>
               </div>
-            ))}
+            )) : (
+              <div style={{ textAlign: 'center', gridColumn: '1/-1', padding: '40px', color: '#888' }}>
+                {loading ? 'Loading openings...' : 'No current openings. Send us your resume!'}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -143,4 +135,3 @@ const Career = () => {
 };
 
 export default Career;
-

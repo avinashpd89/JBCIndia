@@ -159,6 +159,22 @@ const Navbar = () => {
                 )}
               </div>
             ))}
+            {location.pathname.startsWith('/admin') && !localStorage.getItem('token') && (
+              <Link
+                to="/admin/login"
+                style={{
+                  padding: '10px 24px',
+                  background: 'var(--primary)',
+                  color: '#fff',
+                  borderRadius: '6px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  marginLeft: '12px'
+                }}
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Toggle */}
