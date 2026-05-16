@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiPlus, FiEdit2, FiTrash2, FiUsers, FiMapPin, FiBookOpen, FiBriefcase, FiImage, FiLogOut } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiUsers, FiMapPin, FiBookOpen, FiBriefcase, FiImage, FiLogOut, FiLink } from 'react-icons/fi';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -32,7 +32,8 @@ const Dashboard = () => {
       const endpoint = activeTab === 'leaders' ? '/leaders' : 
                        activeTab === 'branches' ? '/branches' : 
                        activeTab === 'blogs' ? '/blogs' : 
-                       activeTab === 'careers' ? '/careers' : '/gallery';
+                       activeTab === 'careers' ? '/careers' : 
+                       activeTab === 'quicklinks' ? '/quicklinks' : '/gallery';
       const response = await api.get(endpoint);
       setData(response.data);
     } catch (error) {
@@ -59,7 +60,8 @@ const Dashboard = () => {
       const endpoint = activeTab === 'leaders' ? `/leaders/${id}` : 
                        activeTab === 'branches' ? `/branches/${id}` : 
                        activeTab === 'blogs' ? `/blogs/${id}` : 
-                       activeTab === 'careers' ? `/careers/${id}` : `/gallery/${id}`;
+                       activeTab === 'careers' ? `/careers/${id}` : 
+                       activeTab === 'quicklinks' ? `/quicklinks/${id}` : `/gallery/${id}`;
       await api.delete(endpoint);
       toast.success('Deleted successfully');
       setDeleteConfirmId(null);
@@ -76,7 +78,8 @@ const Dashboard = () => {
       const endpoint = activeTab === 'leaders' ? '/leaders' : 
                        activeTab === 'branches' ? '/branches' : 
                        activeTab === 'blogs' ? '/blogs' : 
-                       activeTab === 'careers' ? '/careers' : '/gallery';
+                       activeTab === 'careers' ? '/careers' : 
+                       activeTab === 'quicklinks' ? '/quicklinks' : '/gallery';
       
       if (editingItem) {
         await api.put(`${endpoint}/${editingItem.id}`, formData);
@@ -144,7 +147,6 @@ const Dashboard = () => {
             <input type="text" placeholder="Role" value={formData.role || ''} onChange={e => setFormData({...formData, role: e.target.value})} required />
             <input type="text" placeholder="Year (Since)" value={formData.year || ''} onChange={e => setFormData({...formData, year: e.target.value})} required />
             <input type="text" placeholder="Qualifications" value={formData.quals || ''} onChange={e => setFormData({...formData, quals: e.target.value})} required />
-            <textarea placeholder="Experience" value={formData.experience || ''} onChange={e => setFormData({...formData, experience: e.target.value})} required />
             <textarea placeholder="About Leader" value={formData.about || ''} onChange={e => setFormData({...formData, about: e.target.value})} required />
             {renderImageUpload()}
           </>
@@ -155,6 +157,8 @@ const Dashboard = () => {
             <input type="text" placeholder="City" value={formData.city || ''} onChange={e => setFormData({...formData, city: e.target.value})} required />
             <textarea placeholder="Address" value={formData.address || ''} onChange={e => setFormData({...formData, address: e.target.value})} required />
             <input type="email" placeholder="Email" value={formData.email || ''} onChange={e => setFormData({...formData, email: e.target.value})} required />
+            <input type="text" placeholder="Person In-Charge Name (Optional)" value={formData.personIncharge || ''} onChange={e => setFormData({...formData, personIncharge: e.target.value})} />
+            <input type="tel" placeholder="Phone Number (Optional)" value={formData.phone || ''} onChange={e => setFormData({...formData, phone: e.target.value})} />
           </>
         );
       case 'blogs':
@@ -183,6 +187,13 @@ const Dashboard = () => {
             <input type="text" placeholder="Title/Caption" value={formData.title || ''} onChange={e => setFormData({...formData, title: e.target.value})} />
           </>
         );
+      case 'quicklinks':
+        return (
+          <>
+            <input type="text" placeholder="Link Name (e.g. ICAI Website)" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} required />
+            <input type="url" placeholder="URL (e.g. https://www.icai.org)" value={formData.url || ''} onChange={e => setFormData({...formData, url: e.target.value})} required />
+          </>
+        );
       default: return null;
     }
   };
@@ -199,6 +210,7 @@ const Dashboard = () => {
             { id: 'blogs', label: 'Blogs', icon: <FiBookOpen /> },
             { id: 'careers', label: 'Careers', icon: <FiBriefcase /> },
             { id: 'gallery', label: 'Gallery', icon: <FiImage /> },
+            { id: 'quicklinks', label: 'Quick Links', icon: <FiLink /> },
           ].map(tab => (
             <button
               key={tab.id}
@@ -270,7 +282,13 @@ const Dashboard = () => {
                   <tr key={item.id} style={{ borderBottom: '1px solid #eee' }}>
                     <td style={{ padding: '16px 24px' }}>
                       <div style={{ fontWeight: 700, color: 'var(--primary)' }}>{item.name || item.title || item.city || 'Untitled'}</div>
-                      <div style={{ fontSize: '13px', color: '#888' }}>{item.role || item.email || item.type || item.image?.substring(0, 50) + '...'}</div>
+                      <div style={{ fontSize: '13px', color: '#888' }}>
+                        {activeTab === 'branches'
+                          ? `${item.personIncharge ? '👤 ' + item.personIncharge : ''}${item.phone ? '  📞 ' + item.phone : ''}${!item.personIncharge && !item.phone ? item.email : ''}`
+                          : activeTab === 'quicklinks'
+                          ? (item.url || '')
+                          : (item.role || item.email || item.type || item.image?.substring(0, 50) + '...')}
+                      </div>
                     </td>
                     <td style={{ padding: '16px 24px', textAlign: 'right' }}>
                       <button onClick={() => handleOpenModal(item)} style={{ marginRight: '12px', color: '#0056b3', border: 'none', background: 'none', cursor: 'pointer' }}><FiEdit2 /></button>

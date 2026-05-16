@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiMapPin, FiMail } from 'react-icons/fi';
+import { FiMapPin, FiMail, FiPhone, FiUser } from 'react-icons/fi';
 import api from '../services/api';
 
 const OurBranches = () => {
@@ -56,8 +56,22 @@ const OurBranches = () => {
               }}>
                 <h3 style={{ fontSize: 'clamp(18px, 3vw, 22px)', fontWeight: 700, color: 'var(--primary)', marginBottom: '12px' }}>{b.city}</h3>
                 <p style={{ fontSize: '16px', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '16px' }}>{b.address}</p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--secondary)', fontWeight: 600 }}>
-                  <FiMail /> {b.email}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--secondary)', fontWeight: 600 }}>
+                    <FiMail /> {b.email}
+                  </div>
+                  {b.personIncharge && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      <FiUser style={{ color: 'var(--primary)', flexShrink: 0 }} />
+                      <span><span style={{ color: 'var(--primary)' }}>Person In-Charge:</span> {b.personIncharge}</span>
+                    </div>
+                  )}
+                  {b.phone && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      <FiPhone style={{ color: 'var(--primary)', flexShrink: 0 }} />
+                      <a href={`tel:${b.phone}`} style={{ color: 'var(--secondary)', textDecoration: 'none' }}>{b.phone}</a>
+                    </div>
+                  )}
                 </div>
               </div>
             )) : (

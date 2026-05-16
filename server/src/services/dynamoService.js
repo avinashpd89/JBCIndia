@@ -29,7 +29,7 @@ const dynamoService = {
     return items.sort((a, b) => {
       if (!a.createdAt) return 1;
       if (!b.createdAt) return -1;
-      return new Date(b.createdAt) - new Date(a.createdAt);
+      return new Date(a.createdAt) - new Date(b.createdAt); // oldest first → first added shows at top
     });
   },
 
