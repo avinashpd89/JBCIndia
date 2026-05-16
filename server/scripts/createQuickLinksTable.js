@@ -9,9 +9,16 @@ const client = new DynamoDBClient({
   },
 });
 
-const tableName = process.env.DYNAMODB_TABLE_QUICKLINKS || 'JBCQuickLinks';
+const tables = [
+  process.env.DYNAMODB_TABLE_BLOGS || 'JBCBlogs',
+  process.env.DYNAMODB_TABLE_BRANCHES || 'JBCBranches',
+  process.env.DYNAMODB_TABLE_LEADERS || 'JBCOurLeaders',
+  process.env.DYNAMODB_TABLE_CAREERS || 'JBCCareers',
+  process.env.DYNAMODB_TABLE_GALLERY || 'JBCGallery',
+  process.env.DYNAMODB_TABLE_QUICKLINKS || 'JBCQuickLinks'
+];
 
-const createTable = async () => {
+const createTable = async (tableName) => {
   try {
     // Check if table exists
     await client.send(new DescribeTableCommand({ TableName: tableName }));
@@ -35,9 +42,15 @@ const createTable = async () => {
       await client.send(new CreateTableCommand(params));
       console.log(`Table "${tableName}" created successfully.`);
     } else {
-      console.error("Error checking/creating table:", error);
+      console.error(`Error checking/creating table "${tableName}":`, error);
     }
   }
 };
 
-createTable();
+const createAllTables = async () => {
+  for (const tableName of tables) {
+    await createTable(tableName);
+  }
+};
+
+createAllTables();
