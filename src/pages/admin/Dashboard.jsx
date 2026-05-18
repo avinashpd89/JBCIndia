@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiPlus, FiEdit2, FiTrash2, FiUsers, FiMapPin, FiBookOpen, FiBriefcase, FiImage, FiLogOut, FiLink } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiUsers, FiMapPin, FiBookOpen, FiBriefcase, FiImage, FiLogOut, FiLink, FiArrowUp, FiArrowDown } from 'react-icons/fi';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -72,6 +72,43 @@ const Dashboard = () => {
     }
   };
 
+  const handleMove = async (index, direction) => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === data.length - 1) return;
+
+    const endpoint = activeTab === 'leaders' ? '/leaders' : 
+                     activeTab === 'branches' ? '/branches' : 
+                     activeTab === 'blogs' ? '/blogs' : 
+                     activeTab === 'careers' ? '/careers' : 
+                     activeTab === 'quicklinks' ? '/quicklinks' : '/gallery';
+
+    const newData = [...data];
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    
+    // Swap
+    const temp = newData[index];
+    newData[index] = newData[newIndex];
+    newData[newIndex] = temp;
+
+    // Optimistic update
+    setData(newData);
+
+    try {
+      const promises = [];
+      newData.forEach((item, i) => {
+        if (item.position !== i) {
+          promises.push(api.put(`${endpoint}/${item.id}`, { ...item, position: i }));
+        }
+      });
+      await Promise.all(promises);
+      toast.success('Order updated');
+      fetchData();
+    } catch (err) {
+      toast.error('Failed to update order');
+      fetchData(); // Revert on failure
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -81,11 +118,13 @@ const Dashboard = () => {
                        activeTab === 'careers' ? '/careers' : 
                        activeTab === 'quicklinks' ? '/quicklinks' : '/gallery';
       
+      const payload = { ...formData };
+
       if (editingItem) {
-        await api.put(`${endpoint}/${editingItem.id}`, formData);
+        await api.put(`${endpoint}/${editingItem.id}`, payload);
         toast.success('Updated successfully');
       } else {
-        await api.post(endpoint, formData);
+        await api.post(endpoint, payload);
         toast.success('Added successfully');
       }
       setShowModal(false);
@@ -131,8 +170,15 @@ const Dashboard = () => {
         {uploadingImage && <span style={{ color: 'var(--secondary)', fontWeight: 700, fontSize: '14px' }}>Uploading...</span>}
       </div>
       {formData.image && (
-        <div style={{ marginTop: '8px' }}>
+        <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <img src={formData.image} alt="Preview" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #eee' }} />
+          <button 
+            type="button" 
+            onClick={() => setFormData({ ...formData, image: '' })}
+            style={{ padding: '6px 12px', background: '#ffebee', color: '#ff4d4d', border: '1px solid #ff4d4d', borderRadius: '6px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s' }}
+          >
+            Remove Image
+          </button>
         </div>
       )}
     </div>
@@ -278,7 +324,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map(item => (
+                {data.map((item, index) => (
                   <tr key={item.id} style={{ borderBottom: '1px solid #eee' }}>
                     <td style={{ padding: '16px 24px' }}>
                       <div style={{ fontWeight: 700, color: 'var(--primary)' }}>{item.name || item.title || item.city || 'Untitled'}</div>
@@ -287,10 +333,18 @@ const Dashboard = () => {
                           ? `${item.personIncharge ? '👤 ' + item.personIncharge : ''}${item.phone ? '  📞 ' + item.phone : ''}${!item.personIncharge && !item.phone ? item.email : ''}`
                           : activeTab === 'quicklinks'
                           ? (item.url || '')
+                          : activeTab === 'leaders'
+                          ? (item.role || '')
                           : (item.role || item.email || item.type || item.image?.substring(0, 50) + '...')}
                       </div>
                     </td>
                     <td style={{ padding: '16px 24px', textAlign: 'right' }}>
+                      {(activeTab === 'leaders' || activeTab === 'gallery') && (
+                        <>
+                          <button onClick={() => handleMove(index, 'up')} disabled={index === 0} style={{ marginRight: '12px', color: index === 0 ? '#ccc' : '#28a745', border: 'none', background: 'none', cursor: index === 0 ? 'not-allowed' : 'pointer' }}><FiArrowUp /></button>
+                          <button onClick={() => handleMove(index, 'down')} disabled={index === data.length - 1} style={{ marginRight: '12px', color: index === data.length - 1 ? '#ccc' : '#28a745', border: 'none', background: 'none', cursor: index === data.length - 1 ? 'not-allowed' : 'pointer' }}><FiArrowDown /></button>
+                        </>
+                      )}
                       <button onClick={() => handleOpenModal(item)} style={{ marginRight: '12px', color: '#0056b3', border: 'none', background: 'none', cursor: 'pointer' }}><FiEdit2 /></button>
                       <button onClick={() => setDeleteConfirmId(item.id)} style={{ color: '#ff4d4d', border: 'none', background: 'none', cursor: 'pointer' }}><FiTrash2 /></button>
                     </td>

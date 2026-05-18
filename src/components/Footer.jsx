@@ -85,7 +85,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '30px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
           <p style={{ fontSize: '13px', opacity: 0.5 }}>
-            © 2025 Jaiswal Brajesh & Co. All rights reserved. Registered with ICAI.
+            © 2025 Jaiswal Brajesh & Co. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '24px' }}>
             <Link to="/privacy" style={{ fontSize: '13px', opacity: 0.5, color: '#fff', textDecoration: 'none' }}>Privacy Policy</Link>

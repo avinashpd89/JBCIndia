@@ -56,7 +56,7 @@ function App() {
           <Route path="/admin">
             <Route index element={<AdminLogin />} />
             <Route path="login" element={<AdminLogin />} />
-            <Route path="signup" element={<AdminSignUp />} />
+            {/* <Route path="signup" element={<AdminSignUp />} /> */}
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products/add" element={<AddProduct />} />
             <Route path="products/:id/edit" element={<EditProduct />} />

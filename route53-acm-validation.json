@@ -1,0 +1,18 @@
+{
+  "Comment": "ACM DNS Validation Record",
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "_2e4dd1ffd8c80fb3d65c41c72eecee03.jbcindia.in.",
+        "Type": "CNAME",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": "_3f5ab1c3b638c9e781908669b80feb3f.jkddzztszm.acm-validations.aws."
+          }
+        ]
+      }
+    }
+  ]
+}

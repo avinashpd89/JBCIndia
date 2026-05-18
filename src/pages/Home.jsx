@@ -174,7 +174,7 @@ const Home = () => {
           </div>
           <h2 style={{ fontSize: "clamp(26px, 5vw, 36px)", fontWeight: 800, marginBottom: "20px" }}>Our Physical Presence</h2>
           <p style={{ fontSize: "clamp(15px, 2vw, 18px)", opacity: 0.8, maxWidth: "800px", margin: "0 auto 40px", lineHeight: 1.6 }}>
-            Maintaining physical branch offices in Bihar, Uttar Pradesh, Delhi, Chhattisgarh, and Jharkhand to serve you better.
+            Our multi-state branch presence ensures smooth and accessible services for clients across India.
           </p>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Link to="/our-branches" style={{ 
